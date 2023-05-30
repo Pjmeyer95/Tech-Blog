@@ -1,0 +1,29 @@
+-- Create the User table
+CREATE TABLE IF NOT EXISTS `User` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `username` VARCHAR(50) NOT NULL,
+  `email` VARCHAR(100) NOT NULL UNIQUE,
+  `password` VARCHAR(60) NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create the Post table
+CREATE TABLE IF NOT EXISTS `Post` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `title` VARCHAR(100) NOT NULL,
+  `content` TEXT NOT NULL,
+  `user_id` INT NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (`user_id`) REFERENCES `User` (`id`) ON DELETE CASCADE
+);
+
+-- Create the Comment table
+CREATE TABLE IF NOT EXISTS `Comment` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `content` TEXT NOT NULL,
+  `post_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (`post_id`) REFERENCES `Post` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`user_id`) REFERENCES `User` (`id`) ON DELETE CASCADE
+);
